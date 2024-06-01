@@ -28,3 +28,26 @@ body {
 canvas {
     border: 1px solid #000;
 }
+
+#healthBarContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+#healthBar {
+    width: 200px;
+    height: 20px;
+    background-color: #ddd;
+    border: 1px solid #000;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#healthBarFill {
+    height: 100%;
+    background-color: #76c7c0;
+    width: 100%; /* Initially full */
+    transition: width 0.25s;
+}
