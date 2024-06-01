@@ -98,13 +98,13 @@ document.addEventListener('keydown', e => {
 });
 
 document.getElementById('speedUpButton').addEventListener('click', () => {
-    gameSpeed = Math.max(10, gameSpeed - 10);
+    gameSpeed = Math.max(10, gameSpeed + 1);
     document.getElementById('gameSpeed').innerText = gameSpeed;
     restartGame();
 });
 
 document.getElementById('speedDownButton').addEventListener('click', () => {
-    gameSpeed += 10;
+    gameSpeed = Math.min(1, gameSpeed - 1);
     document.getElementById('gameSpeed').innerText = gameSpeed;
     restartGame();
 });
