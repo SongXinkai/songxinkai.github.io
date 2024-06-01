@@ -49,7 +49,6 @@ function update() {
         snake.pop();
     }
 
-    score--; // Decrease score by 1 for each step
     document.getElementById('score').innerText = score;
 
     if (snakeCollision(head)) {
@@ -100,11 +99,13 @@ document.addEventListener('keydown', e => {
 
 document.getElementById('speedUpButton').addEventListener('click', () => {
     gameSpeed = Math.max(10, gameSpeed - 10);
+    document.getElementById('gameSpeed').innerText = gameSpeed;
     restartGame();
 });
 
 document.getElementById('speedDownButton').addEventListener('click', () => {
     gameSpeed += 10;
+    document.getElementById('gameSpeed').innerText = gameSpeed;
     restartGame();
 });
 
@@ -123,4 +124,5 @@ function restartGame() {
 }
 
 initializeFoods();
+document.getElementById('gameSpeed').innerText = gameSpeed;
 const gameInterval = setInterval(gameLoop, gameSpeed);
