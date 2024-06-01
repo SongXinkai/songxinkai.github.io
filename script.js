@@ -65,27 +65,32 @@ function updateHealthBar() {
 }
 
 document.addEventListener('keydown', e => {
+    let newDirection = { ...direction };
     switch (e.key) {
         case 'ArrowUp':
-            if (direction.y === 0) direction = { x: 0, y: -1 };
+            newDirection = { x: 0, y: -1 };
             break;
         case 'ArrowDown':
-            if (direction.y === 0) direction = { x: 0, y: 1 };
+            newDirection = { x: 0, y: 1 };
             break;
         case 'ArrowLeft':
-            if (direction.x === 0) direction = { x: -1, y: 0 };
+            newDirection = { x: -1, y: 0 };
             break;
         case 'ArrowRight':
-            if (direction.x === 0) direction = { x: 1, y: 0 };
+            newDirection = { x: 1, y: 0 };
             break;
     }
-    update();
-    draw();
+    if ((newDirection.x !== -direction.x || newDirection.y !== -direction.y) && (newDirection.x !== 0 || newDirection.y !== 0)) {
+        direction = newDirection;
+        update();
+        draw();
+    }
 });
 
 document.getElementById('foodCount').addEventListener('change', (e) => {
     foodCount = parseInt(e.target.value);
     initializeFoods();
+    draw();
 });
 
 document.getElementById('scoreIncrement').addEventListener('change', (e) => {
