@@ -7,22 +7,19 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="controls">
-        <button id="speedUpButton">Speed Up</button>
-        <button id="speedDownButton">Speed Down</button>
-        <div>
-            <label for="foodCount">Food Count (N):</label>
-            <input type="number" id="foodCount" min="1" value="1">
-        </div>
-        <div>
-            <label for="scoreIncrement">Score Increment (M):</label>
-            <input type="number" id="scoreIncrement" min="1" value="10">
-        </div>
-        <div>
-            <span>Score: </span><span id="score">0</span>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div id="controls">
+            <button id="speedUpButton">Speed Up</button>
+            <button id="speedDownButton">Speed Down</button>
+            <label for="foodCount">Food Count:</label>
+            <input type="number" id="foodCount" value="1">
+            <label for="scoreIncrement">Score Increment:</label>
+            <input type="number" id="scoreIncrement" value="10">
+            <div>Score: <span id="score">0</span></div>
+            <div>Speed: <span id="gameSpeed"></span> ms</div>
         </div>
     </div>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
     <script src="script.js"></script>
 </body>
 </html>
