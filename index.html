@@ -4,96 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        canvas {
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="controls">
+        <button id="speedUpButton">Speed Up</button>
+        <button id="speedDownButton">Speed Down</button>
+        <div>
+            <label for="foodCount">Food Count (N):</label>
+            <input type="number" id="foodCount" min="1" value="1">
+        </div>
+        <div>
+            <label for="scoreIncrement">Score Increment (M):</label>
+            <input type="number" id="scoreIncrement" min="1" value="10">
+        </div>
+        <div>
+            <span>Score: </span><span id="score">0</span>
+        </div>
+    </div>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-
-        const gridSize = 20;
-        let snake = [{ x: 10, y: 10 }];
-        let direction = { x: 0, y: 0 };
-        let food = { x: 15, y: 15 };
-        let score = 0;
-
-        function gameLoop() {
-            update();
-            draw();
-        }
-
-        function update() {
-            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
-            snake.unshift(head);
-
-            if (head.x === food.x && head.y === food.y) {
-                score++;
-                food = {
-                    x: Math.floor(Math.random() * (canvas.width / gridSize)),
-                    y: Math.floor(Math.random() * (canvas.height / gridSize))
-                };
-            } else {
-                snake.pop();
-            }
-
-            if (head.x < 0 || head.x >= canvas.width / gridSize || head.y < 0 || head.y >= canvas.height / gridSize || snakeCollision(head)) {
-                clearInterval(gameInterval);
-                alert('Game Over! Your score: ' + score);
-            }
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = 'red';
-            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
-
-            ctx.fillStyle = 'green';
-            snake.forEach(segment => {
-                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
-            });
-        }
-
-        function snakeCollision(head) {
-            for (let i = 1; i < snake.length; i++) {
-                if (snake[i].x === head.x && snake[i].y === head.y) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        document.addEventListener('keydown', e => {
-            switch (e.key) {
-                case 'ArrowUp':
-                    if (direction.y === 0) direction = { x: 0, y: -1 };
-                    break;
-                case 'ArrowDown':
-                    if (direction.y === 0) direction = { x: 0, y: 1 };
-                    break;
-                case 'ArrowLeft':
-                    if (direction.x === 0) direction = { x: -1, y: 0 };
-                    break;
-                case 'ArrowRight':
-                    if (direction.x === 0) direction = { x: 1, y: 0 };
-                    break;
-            }
-        });
-
-        const gameInterval = setInterval(gameLoop, 100);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
