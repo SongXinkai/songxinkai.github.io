@@ -2,13 +2,13 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 const gridSize = 20;
-let snake = [{ x: 10, y: 10 }];
+let piece = { x: 10, y: 10 };
 let direction = { x: 0, y: 0 };
 let foods = [];
-let score = 0;
+let score = 100;
+const maxScore = 100;
 let foodCount = 1;
 let scoreIncrement = 10;
-let gameSpeed = 100;
 
 function initializeFoods() {
     foods = [];
@@ -20,23 +20,18 @@ function initializeFoods() {
     }
 }
 
-function gameLoop() {
-    update();
-    draw();
-}
-
 function update() {
-    const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+    const head = { x: piece.x + direction.x, y: piece.y + direction.y };
 
     // Wrap around the edges
     head.x = (head.x + canvas.width / gridSize) % (canvas.width / gridSize);
     head.y = (head.y + canvas.height / gridSize) % (canvas.height / gridSize);
 
-    snake.unshift(head);
+    piece = head;
 
     for (let i = 0; i < foods.length; i++) {
-        if (head.x === foods[i].x && head.y === foods[i].y) {
-            score += scoreIncrement;
+        if (piece.x === foods[i].x && piece.y === foods[i].y) {
+            score = Math.min(maxScore, score + scoreIncrement);
             foods.splice(i, 1);
             foods.push({
                 x: Math.floor(Math.random() * (canvas.width / gridSize)),
@@ -45,16 +40,10 @@ function update() {
         }
     }
 
-    if (!foods.some(food => food.x === head.x && food.y === head.y)) {
-        snake.pop();
-    }
+    score = Math.max(0, score - 1);
 
     document.getElementById('score').innerText = score;
-
-    if (snakeCollision(head)) {
-        clearInterval(gameInterval);
-        alert('Game Over! Your score: ' + score);
-    }
+    updateHealthBar();
 }
 
 function draw() {
@@ -66,18 +55,13 @@ function draw() {
     });
 
     ctx.fillStyle = 'green';
-    snake.forEach(segment => {
-        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
-    });
+    ctx.fillRect(piece.x * gridSize, piece.y * gridSize, gridSize, gridSize);
 }
 
-function snakeCollision(head) {
-    for (let i = 1; i < snake.length; i++) {
-        if (snake[i].x === head.x && snake[i].y === head.y) {
-            return true;
-        }
-    }
-    return false;
+function updateHealthBar() {
+    const healthBar = document.getElementById('healthBar');
+    const healthBarFill = document.getElementById('healthBarFill');
+    healthBarFill.style.width = `${(score / maxScore) * 100}%`;
 }
 
 document.addEventListener('keydown', e => {
@@ -95,18 +79,8 @@ document.addEventListener('keydown', e => {
             if (direction.x === 0) direction = { x: 1, y: 0 };
             break;
     }
-});
-
-document.getElementById('speedUpButton').addEventListener('click', () => {
-    gameSpeed = Math.max(10, gameSpeed + 1);
-    document.getElementById('gameSpeed').innerText = gameSpeed;
-    restartGame();
-});
-
-document.getElementById('speedDownButton').addEventListener('click', () => {
-    gameSpeed = Math.min(1, gameSpeed - 1);
-    document.getElementById('gameSpeed').innerText = gameSpeed;
-    restartGame();
+    update();
+    draw();
 });
 
 document.getElementById('foodCount').addEventListener('change', (e) => {
@@ -118,11 +92,6 @@ document.getElementById('scoreIncrement').addEventListener('change', (e) => {
     scoreIncrement = parseInt(e.target.value);
 });
 
-function restartGame() {
-    clearInterval(gameInterval);
-    gameInterval = setInterval(gameLoop, gameSpeed);
-}
-
 initializeFoods();
-document.getElementById('gameSpeed').innerText = gameSpeed;
-const gameInterval = setInterval(gameLoop, gameSpeed);
+draw();
+updateHealthBar();
