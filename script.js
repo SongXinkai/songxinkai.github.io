@@ -59,12 +59,12 @@ function draw() {
 }
 
 function updateHealthBar() {
-    const healthBar = document.getElementById('healthBar');
     const healthBarFill = document.getElementById('healthBarFill');
     healthBarFill.style.width = `${(score / maxScore) * 100}%`;
 }
 
 document.addEventListener('keydown', e => {
+    e.preventDefault();  // 阻止默认行为
     let newDirection = { ...direction };
     switch (e.key) {
         case 'ArrowUp':
