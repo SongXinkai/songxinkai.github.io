@@ -11,9 +11,13 @@
         <canvas id="gameCanvas" width="400" height="400"></canvas>
         <div id="controls">
             <label for="foodCount">Food Count:</label>
-            <input type="number" id="foodCount" value="1">
+            <button id="decreaseFoodCount">-</button>
+            <span id="foodCount">1</span>
+            <button id="increaseFoodCount">+</button>
             <label for="scoreIncrement">Score Increment:</label>
-            <input type="number" id="scoreIncrement" value="10">
+            <button id="decreaseScoreIncrement">-</button>
+            <span id="scoreIncrement">10</span>
+            <button id="increaseScoreIncrement">+</button>
             <div>Score: <span id="score">100</span></div>
             <div id="healthBarContainer">
                 <div id="healthBar">
@@ -22,6 +26,7 @@
             </div>
         </div>
     </div>
+    <div id="gameOver" style="display:none;">Game Over</div>
     <script src="script.js"></script>
 </body>
 </html>
