@@ -89,7 +89,7 @@ document.addEventListener('keydown', e => {
             newDirection = { x: 1, y: 0 };
             break;
     }
-    if ((newDirection.x !== -direction.x || newDirection.y !== -direction.y) && (newDirection.x !== 0 || newDirection.y !== 0)) {
+    if ((newDirection.x !== 0 || newDirection.y !== 0)) {
         direction = newDirection;
         update();
         draw();
