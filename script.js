@@ -44,6 +44,10 @@ function update() {
 
     document.getElementById('score').innerText = score;
     updateHealthBar();
+
+    if (score === 0) {
+        gameOver();
+    }
 }
 
 function draw() {
@@ -61,6 +65,11 @@ function draw() {
 function updateHealthBar() {
     const healthBarFill = document.getElementById('healthBarFill');
     healthBarFill.style.width = `${(score / maxScore) * 100}%`;
+}
+
+function gameOver() {
+    document.getElementById('gameOver').style.display = 'block';
+    direction = { x: 0, y: 0 }; // Stop the game
 }
 
 document.addEventListener('keydown', e => {
@@ -87,16 +96,43 @@ document.addEventListener('keydown', e => {
     }
 });
 
-document.getElementById('foodCount').addEventListener('change', (e) => {
-    foodCount = parseInt(e.target.value);
+document.getElementById('decreaseFoodCount').addEventListener('click', () => {
+    if (foodCount > 1) {
+        foodCount--;
+        document.getElementById('foodCount').innerText = foodCount;
+        initializeFoods();
+        draw();
+    }
+});
+
+document.getElementById('increaseFoodCount').addEventListener('click', () => {
+    foodCount++;
+    document.getElementById('foodCount').innerText = foodCount;
     initializeFoods();
     draw();
 });
 
-document.getElementById('scoreIncrement').addEventListener('change', (e) => {
-    scoreIncrement = parseInt(e.target.value);
+document.getElementById('decreaseScoreIncrement').addEventListener('click', () => {
+    if (scoreIncrement > 1) {
+        scoreIncrement--;
+        document.getElementById('scoreIncrement').innerText = scoreIncrement;
+    }
 });
+
+document.getElementById('increaseScoreIncrement').addEventListener('click', () => {
+    scoreIncrement++;
+    document.getElementById('scoreIncrement').innerText = scoreIncrement;
+});
+
+function gameLoop() {
+    update();
+    draw();
+    if (score > 0) {
+        setTimeout(gameLoop, 100);  // Adjust the game speed by changing the timeout value
+    }
+}
 
 initializeFoods();
 draw();
 updateHealthBar();
+gameLoop();
