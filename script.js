@@ -41,6 +41,7 @@ function update() {
             break;
         }
     }
+    hp = Math.max(0, hp - 1);
 
     document.getElementById('score').innerText = score;
     updateHealthBar();
